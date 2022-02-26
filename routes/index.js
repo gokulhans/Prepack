@@ -7,16 +7,32 @@ var ObjectId = require('mongodb').ObjectId
 router.get('/', async function (req, res) {
   let id = req.session.user
   let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
-  let blogs = await db.get().collection('blogs').find().sort({title:1}).toArray()
-  let newblog = blogs[0]
+  let products = await db.get().collection('products').find().sort({ title: 1 }).toArray()
+  console.log(products);
   if (user) {
-    res.render('index', { blogs, user,newblog });
+    res.render('index', { products, user });
   }
-  res.render('index', { blogs,newblog });
+  res.render('index', { products });
 });
 
 
 // Products
+router.get('/add-product', async function (req, res) {
+  let id = req.session.user
+  let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
+ 
+  res.render('newproduct', {user });
+});
+router.post('/add-product', async function (req, res) {
+  let product = req.body
+  console.log(product);
+  db.get().collection('products').insertOne(product).then((response) => {
+    console.log(response);
+  })
+ 
+  res.redirect('/');
+});
+
 router.get('/view-product', async function (req, res) {
   let id = req.session.user
   let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
