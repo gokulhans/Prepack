@@ -1,0 +1,92 @@
+<form  {{#if blog}} action="/users/edit/" {{else}}action="/users/newblog" {{/if}}  method="post" class="form">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name"
+            value="{{user.name}}">
+    </div>
+    <div class="form-group">
+
+        <label for="exampleInputEmail1">Blog Title</label>
+        <input type="text" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp"
+            name="title" placeholder="Enter title...." value="{{#if blog}}{{blog.title}}{{else}}{{/if}}">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Blog Content</label>
+        <textarea class="form-control" required name="blog" id="" cols="30" rows="10"
+            placeholder="Write your blog here.....">{{#if blog}}{{blog.blog}}{{else}}{{/if}}</textarea>
+    </div>
+    <input type="text" hidden class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="userid"
+        value="{{user._id}}" placeholder="Enter title....">
+
+{{#if blog}} 
+    <input type="text" value="{{blog._id}}" hidden name="blogid">
+ {{/if}}
+
+    <label for="exampleInputEmail1">Image url</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="imgurl"
+        placeholder="Paste image link here...." value="{{#if blog}}{{blog.imgurl}}{{else}}{{/if}}">
+        <small class="copy-link">copy link from <a href="https://unsplash.com"class="unplash">unplash</a> or <a href="https://www.pexels.com/" class="pexel">pexel</a> for high quality images</small>
+<div>
+    <div class="insta">
+
+       <label for="exampleInputEmail1">Instagram Link (optional) </label>
+      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="instalink"
+        placeholder="Paste instagram link here...." value="{{#if blog}}{{blog.instalink}}{{else}}{{/if}}">
+    </div>
+</div>
+
+    <div>
+  
+        <label style="margin-top: 25px;" for="exampleInputEmail1">Add Tag</label>
+        <select class="m-3" name="section" style="padding: 5px; font-size: 15px; font-weight: 500;">
+            {{#if blog}}
+            <option value="{{blog.section}}">{{blog.section}}</option>
+            {{/if}}
+            <option value="health">Health</option>
+            <option value="love">Love</option>
+            <option value="life">Life</option>
+            <option value="money">Money</option>
+            <option value="film">Film</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success m-3">Submit</button>
+</form>
+
+<style>
+    .insta{
+        margin-top: 20px;
+    }
+    .unplash{
+        color: green;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .pexel{
+        color: green;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .copy-link{
+        font-size: 13px;
+        margin-top: 10px;
+    }
+    .form {
+        margin-top: 5%;
+        margin-left: 15vh;
+        margin-right: 15vh;
+    }
+
+    input {
+        margin-top: 3%;
+    }
+
+    textarea {
+        margin-top: 3%;
+    }
+
+    label {
+        font-size: 20px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+</style>
