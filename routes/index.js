@@ -15,12 +15,15 @@ router.get('/', async function (req, res) {
   res.render('index', { products });
 });
 
+router.get('/add-shop', async function (req, res) {
+  res.render('addshop'); 
+});
 
 // Products
 router.get('/add-product', async function (req, res) {
   let id = req.session.user
   let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
-  res.render('addproduct', {user }); 
+  res.render('newproduct', {user }); 
 });
 router.post('/add-product', async function (req, res) {
   let product = req.body
