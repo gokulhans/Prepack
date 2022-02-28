@@ -20,8 +20,7 @@ router.get('/', async function (req, res) {
 router.get('/add-product', async function (req, res) {
   let id = req.session.user
   let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
- 
-  res.render('newproduct', {user });
+  res.render('addproduct', {user }); 
 });
 router.post('/add-product', async function (req, res) {
   let product = req.body
