@@ -3,8 +3,9 @@ const state = {
     db:null
 }
 module.exports.connect = function(done){
-    const url= process.env.DATABASE_URL || 'mongodb+srv://gbrozdev:gbrozdev@cluster0.pgxe9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-    const dbname='FASINO'
+    // const url= process.env.DATABASE_URL || 'mongodb+srv://gbrozdev:gbrozdev@cluster0.pgxe9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+    const url= process.env.DATABASE_URL || 'mongodb://localhost:27017'
+    const dbname='PREPACK'
 
     mongoClient.connect(url,(err,data)=>{
         if(err) return done(err)

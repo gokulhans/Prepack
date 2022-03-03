@@ -1,0 +1,19 @@
+Developers EncycloPedia
+
+<form action="/dev" method="post">
+    <input type="text" class="btn" name="item">
+    <input type="submit" class="btn btn-success" value="Add">
+</form>
+<br>
+<br>
+<br>
+<br>
+<h1 class="btn">ToDos</h1>
+<br>
+{{#each items}}
+<p> 
+{{this.item}}  ..................................... <a href="/dev{{this._id}}">D</a>
+<br>
+</p>
+{{/each}}
+

@@ -2,6 +2,28 @@ var express = require('express');
 var router = express.Router();
 var db = require('../connection')
 var ObjectId = require('mongodb').ObjectId
+var fun = require('../functions')
+
+
+router.get('/test', async function (req, res) {
+console.log('called');  
+res.json({items:"guys"});
+});
+// Dev 
+router.get('/dev', async function (req, res) {
+  let items = await db.get().collection('dev').find().sort({ title: 1 }).toArray()
+console.log(items);
+  res.render('dev',{items});
+});
+router.get('/dev:id', async function (req, res) {
+  db.get().collection('dev').deleteOne({_id:ObjectId(req.params.id)})
+  res.redirect('/dev');
+});
+
+router.post('/dev', function (req, res) {
+  db.get().collection('dev').insertOne(req.body)
+  res.redirect('/dev');
+});
 
 // Home 
 router.get('/', async function (req, res) {
@@ -15,37 +37,43 @@ router.get('/', async function (req, res) {
   res.render('index', { products });
 });
 
-router.get('/add-shop', async function (req, res) {
-  res.render('addshop'); 
-});
 
-// Products
-router.get('/add-product', async function (req, res) {
-  let id = req.session.user
-  let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
-  res.render('newproduct', {user }); 
-});
-router.post('/add-product', async function (req, res) {
-  let product = req.body
-  console.log(product);
-  db.get().collection('products').insertOne(product).then((response) => {
-    console.log(response);
-  })
- 
-  res.redirect('/');
-});
 
-router.get('/view-product', async function (req, res) {
-  let id = req.session.user
-  let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
- 
-  res.render('view-product', {user });
-});
 
 //Cart
-router.get('/cart', (req, res) => {
-  res.render('cart')
+router.get('/cart', async (req, res) => {
+  let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
+
+  let cartitems = await db.get().collection('carts').find({"userid":user._id}).sort({ title: 1 }).toArray()
+
+  res.render('cart',{cartitems,user})
 })
+
+router.post('/add-to-cart', async (req, res) => {
+  let item = req.body
+  let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
+  item.userid = user._id
+  item.quantity = 1
+  console.log(item);
+
+  db.get().collection('carts').insertOne(item).then((response) => {
+    console.log(response);
+  })
+  res.redirect('/')
+})
+
+router.delete('/cart/:id',async (req, res) => {
+  let itemid = req.params.id
+  let user = await db.get().collection('users').findOne({ _id: ObjectId(id) })
+
+
+  db.get().collection('carts').removeOne({"userid":user._id,_id:ObjectId(itemid)}).then((response) => {
+    console.log(response);
+  })
+  res.redirect('/cart')
+})
+
+
 
 // User Authentication Code Place
 

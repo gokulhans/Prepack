@@ -13,6 +13,7 @@ var db = require('./connection');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var AdminPanel = require('./routes/admin');
+var shopRouter = require('./routes/shop');
 const hbs = require('express-handlebars');
 var app = express();
 var fileUpload = require('express-fileupload')
@@ -50,6 +51,7 @@ app.use(fileUpload());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', AdminPanel);
+app.use('/shop', shopRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
